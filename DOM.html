@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body style="padding: 20px">
+	<h1>请输入表格行列数：</h1>
+	<form>
+		<input type="text" name="行" style="width: 50px" id="text1">
+		<span>行</span>
+		<input type="text" name="列" style="width: 50px" id="text2">
+		<span>列</span>
+		<br/>
+		<br/>
+	</form>
+	<button style="width: 60px" onclick="task()">创建</button>
+</body>
+<script type="text/javascript">
+	function task(){
+		var row =document.getElementById("text1").value;
+		var col =document.getElementById("text2").value;
+		var table = document.createElement("table");
+	   	table.setAttribute("cellSpacing", "2");
+	    table.setAttribute("border", "1");
+	    document.body.appendChild(table);
+	    for (var x = 0; x < row; x++) {
+	        var tr = document.createElement("tr");
+	        table.appendChild(tr);
+	        for (var y = 0; y < col; y++) {
+	            var td = document.createElement("td");
+	            td.setAttribute("width", "100");
+	            td.setAttribute("height", "100");
+	            tr.appendChild(td);
+	        }
+	    }
+}
+
+	
+</script>
+</html>
