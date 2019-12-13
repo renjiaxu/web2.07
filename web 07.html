@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>homework07</title>
+	<script src="js/animate.js"></script>
+	<link rel="stylesheet" href="07.css">
+	<style>
+		
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="header">
+			<img src="images/a15.png" alt="">
+			<div id="big">
+				<div id="dongtext">[温馨提示]最近有不少不法分子在网上骗人,请大家注意！</div>
+			</div>
+		</div>
+		<div class="littlebox">
+			<div class="slider">
+				<div class="slide"><img src="images/b5.png" alt=""></div>
+				<div class="slide"><img src="images/b1.png" alt=""></div>
+				<div class="slide"><img src="images/b2.png" alt=""></div>
+				<div class="slide"><img src="images/b3.png" alt=""></div>
+				<div class="slide"><img src="images/b4.png" alt=""></div>
+				<div class="slide"><img src="images/b5.png" alt=""></div>
+				<div class="slide"><img src="images/b1.png" alt="">
+			</div>
+		</div>		
+		<span id="left"><</span>
+		<span id="right">></span>
+		<ul class="nav">
+			<li class="active">1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+
+		</ul>
+	</div>
+	</div>
+</body>
+<script>
+	function getStyle(obj,style){
+		if(obj.currentStyle) 
+		{  
+		    return obj.currentStyle[style]; //参数带引号，因此只能用[]方法访问属性 
+		} 
+		else 
+		{  
+		    return getComputedStyle(obj)[style];  
+		}
+	}
+
+	var lbox=document.getElementsByClassName("littlebox")[0];
+	var oNavlist=document.getElementsByClassName("nav")[0].children;
+	var slider=document.getElementsByClassName("slider")[0];
+	var left = document.getElementById("left");
+	var right = document.getElementById("right");
+	var index = 1;
+	var time;
+	var isMoving=false;
+	//滚动字幕
+	var gundong = document.getElementById("dongtext");
+	window.onload=function(){
+		var timer = setInterval(function(){
+			var now = parseInt(getStyle(gundong,"right"));
+			// console.log(now);
+			gundong.style.right=now+3+"px";
+			if (now>=900){
+				// clearInterval(timer);
+				gundong.style.right=-400+"px";
+			}							
+		},30)
+	}
+
+	//                             
+	function next(){
+		if(isMoving){
+			return;
+		}
+		isMoving=true;
+		// index=(index++)%5;
+		index++;
+		navChange();
+		animate(slider,{left:-1200*index},function(){
+			if(index>5){
+				slider.style.left="-1200px";
+				index=1;
+			}
+			isMoving=false;
+		});
+		
+	}
+	function prev(){
+		if(isMoving){
+			return;
+		}
+		isMoving=true;
+		// index=(index--)%5;
+		index--;
+		navChange();		
+		animate(slider,{left:-1200*index},function(){
+			if(index===0){
+				slider.style.left="-6000px";
+				index=5;
+			}
+			isMoving=false;
+		});
+	}
+	timer=setInterval(next,3000);
+
+	//setInterval(function(){
+	// 	index=(index++)%5;
+	// 	// index++;
+	// 	animate(slider,{left:-1200*index})
+	// },3000);
+
+	lbox.onmouseover=function(){
+		clearInterval(timer);
+		animate(left,{opacity:50});
+		animate(right,{opacity:50});
+
+	}
+	
+	lbox.onmouseout=function(){
+		timer=setInterval(next,3000);
+		animate(left,{opacity:0});
+		animate(right,{opacity:0});
+
+	}
+
+	right.onclick=next;
+	left.onclick=prev;
+	//按钮点击
+	for (var j=0;j<oNavlist.length;j++){
+		oNavlist[j].idx=j;
+		oNavlist[j].onclick=function(){
+			index=this.idx+1;
+			navChange();
+			animate(slider,{left:-1200*index});
+		}
+	}
+
+	//按钮背景色
+	function navChange(){
+		for(var i=0;i<oNavlist.length;i++){
+			oNavlist[i].className="";//把所有的样式都清空
+		}
+		if(index>5){
+			oNavlist[0].className="active";
+		}
+		else if(index===0){
+			oNavlist[4].className="active";
+		}
+		else{
+			oNavlist[index-1].className="active";			
+		}
+
+	}
+	
+
+	
+</script>
+</html>
